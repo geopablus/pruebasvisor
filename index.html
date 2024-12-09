@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,51 +25,10 @@
             minZoom: 1
         }).fitBounds([[28.477428879026395, -13.947885640400136], [28.59195705581239, -13.811103173338187]]);
 
-        function styleYacimientos(feature) {
-            return {
-                color: "#d8007b",
-                fillColor: "#f08ca0",
-                fillOpacity: 0.55,
-                weight: 0.26
-            };
-        }
-
-        function onEachFeatureCustom(feature, layer) {
-            if (feature.properties) {
-                var popupContent = `<div style="width: 100.0%; height: 100.0%;"> 
-                    <style> 
-                        table { 
-                            border-collapse: collapse; 
-                            width: 100%; 
-                        } 
-                        th, td { 
-                            border: 1px solid #dddddd; 
-                            text-align: left; 
-                            padding: 8px; 
-                        } 
-                        th { 
-                            background-color: #f2f2f2; 
-                        } 
-                    </style> 
-                    <table> 
-                        <tr><th>Campo</th><th>Valor</th></tr>`;
-                popupContent += `<tr><td>FID</td><td>${feature.properties['FID']}</td></tr>`;
-                if (feature.properties['rutapdf']) {
-                    popupContent += `<tr><td>PDF</td><td><a href="${feature.properties['rutapdf']}" target="_blank">Abrir PDF</a></td></tr>`;
-                }
-                popupContent += `</table></div>`;
-                var popup = L.popup({ maxWidth: 300 }).setContent(popupContent);
-                layer.bindPopup(popup);
-            }
-        }
-
         fetch("data/yacimientos_arqueologicos_web.geojson")
             .then(response => response.json())
             .then(data => {
-                L.geoJson(data, {
-                    style: styleYacimientos,
-                    onEachFeature: onEachFeatureCustom
-                }).addTo(map);
+                L.geoJson(data).addTo(map);
             });
     </script>
 </body>
